@@ -28,7 +28,7 @@ def regex_function(text):
 
 def add_word():
     test = "hello hello"
-    //a_reg = 
+    #a_reg = 
     english = user_input("Enter new English word: ")
     non = user_input("Enter Naumarian word: ")
     with open("./english.txt") as english_file:
