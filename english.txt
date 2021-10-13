@@ -1,4 +1,5 @@
 3
-^apple$
-^text$
-^hello$
+apple
+text
+hello
+#test

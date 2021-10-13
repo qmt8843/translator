@@ -19,11 +19,16 @@ def regex_function(text):
                 return None
             non_lines = non_file.readlines()
             for index in range(line_count):
-                converted_text = re.sub(english_lines[index].strip(), non_lines[index].strip(), converted_text, flags=re.IGNORECASE)
+                if english_lines[index] != '#' and non_lines[index] != '#':
+                    english_regex = fr"\b{english_lines[index].strip()}\b"
+                    non_regex = fr"\b{non_lines[index].strip()}\b"
+                    converted_text = re.sub(english_regex, non_regex, converted_text, flags=re.IGNORECASE)
 
-    print("Output:\n", converted_text)
+    print("Output: ", converted_text)
 
 def add_word():
+    test = "hello hello"
+    //a_reg = 
     english = user_input("Enter new English word: ")
     non = user_input("Enter Naumarian word: ")
     with open("./english.txt") as english_file:
