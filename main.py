@@ -23,7 +23,7 @@ def regex_function(text):
                 return None
             non_lines = non_file.readlines()
             for index in range(line_count):
-                if english_lines[index] != '#' and non_lines[index] != '#':
+                if english_lines[index] != '#' and non_lines[index] != '#': #Allows for comments within word text documents
                     english_regex = fr"\b{english_lines[index].strip()}(s)\b"
                     non_regex = fr"{non_lines[index].strip()}\1"
                     converted_text = re.sub(english_regex, non_regex, converted_text, flags=re.IGNORECASE)
@@ -43,12 +43,12 @@ def add_word():
     with open("./english.txt") as english_file:
         lines = english_file.readlines()
         lines[0] = int(lines[0])+1
-        new = "^"+english+"$"
+        new =  english
         english_file.write(new)
     with open("./non.txt") as non_file:
         lines = non_file.readlines()
         lines[0] = int(lines[0])+1
-        new = "^"+non+"$"
+        new = non
         english_file.write(new)
     print("Word added!\n")
     return 1
