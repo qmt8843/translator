@@ -24,9 +24,16 @@ def regex_function(text):
             non_lines = non_file.readlines()
             for index in range(line_count):
                 if english_lines[index] != '#' and non_lines[index] != '#': #Allows for comments within word text documents
-                    english_regex = fr"\b{english_lines[index].strip()}(s)\b"
-                    non_regex = fr"{non_lines[index].strip()}\1"
+                    english_regex = fr"\b{english_lines[index].strip()}\b"
+                    non_regex = fr"{non_lines[index].strip()}"
                     converted_text = re.sub(english_regex, non_regex, converted_text, flags=re.IGNORECASE)
+                    with open("./ending.txt") as ending_file: #Checks for mutations to words (i.e., s, ed, est, ly, ect.)
+                        ending_lines = ending_file.readlines()
+                        for end in ending_lines:
+                            end_tokens = end.split("|")
+                            end_rg1 = fr"\B{end_tokens[0].strip()}\b"
+                            end_rg2 = fr"{end_tokens[1].strip()}"
+                            converted_text = re.sub(end_rg1, end_rg2, converted_text, flags=re.IGNORECASE)
 
     print("Output: ", converted_text, "\n")
 
