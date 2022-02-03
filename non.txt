@@ -1,4 +1,7 @@
 3
+ea
 fruit
 speech
 goodbye
+z
+#test

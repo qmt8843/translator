@@ -1,5 +1,7 @@
 3
+i
 apple
 text
 hello
+s
 #test

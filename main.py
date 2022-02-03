@@ -6,6 +6,26 @@ def user_input(request):
     text.strip()
     return text
 
+#Function checks for suffix mutations to words (i.e., s, ed, est, ly, ect.)
+def replace_simple_ending(text):
+    with open("./ending.txt") as ending_file: 
+        ending_lines = ending_file.readlines()
+        for end in ending_lines:
+            end_tokens = end.split("|")
+            end_rg1 = fr"\B{end_tokens[0].strip()}\b"
+            end_rg2 = fr"{end_tokens[1].strip()}"
+            text = re.sub(end_rg1, end_rg2, text, flags=re.IGNORECASE)
+
+#Function translates ownership noun and conjugates word following it
+def replace_ownership(text, current):
+    with open("./ownership.txt") as owner_file:
+        owner_lines = owner_file.readlines()
+        for line in owner_lines:
+            owner_tokens = line.strip().split("|")
+            print(owner_tokens)
+            owner_rg1 = fr"{owner_tokens[0].strip()} ({current})\b" 
+            text = re.sub(owner_rg1, rf"\1{owner_tokens[1].strip()}", text, flags=re.IGNORECASE)
+
 def regex_function(text):
     #This function coverts each word (with a translation) in text with its counterpart
     #English words are put in english.txt
@@ -26,15 +46,12 @@ def regex_function(text):
                 if english_lines[index] != '#' and non_lines[index] != '#': #Allows for comments within word text documents
                     english_regex = fr"\b{english_lines[index].strip()}\b"
                     non_regex = fr"{non_lines[index].strip()}"
+                    replace_ownership(converted_text, english_lines[index].strip())
                     converted_text = re.sub(english_regex, non_regex, converted_text, flags=re.IGNORECASE)
-                    with open("./ending.txt") as ending_file: #Checks for mutations to words (i.e., s, ed, est, ly, ect.)
-                        ending_lines = ending_file.readlines()
-                        for end in ending_lines:
-                            end_tokens = end.split("|")
-                            end_rg1 = fr"\B{end_tokens[0].strip()}\b"
-                            end_rg2 = fr"{end_tokens[1].strip()}"
-                            converted_text = re.sub(end_rg1, end_rg2, converted_text, flags=re.IGNORECASE)
-
+                    replace_simple_ending(converted_text)
+                    
+                    
+                    
     print("Output: ", converted_text, "\n")
 
 def add_word():
